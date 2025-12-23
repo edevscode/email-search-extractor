@@ -5,9 +5,20 @@ Orchestrates the email scraping, extraction, and Excel generation workflow
 
 import streamlit as st
 import io
-from scraper import scrape_google
+import os
 from email_extractor import extract_emails_from_text, get_sorted_emails
 from excel_generator import generate_excel_from_emails
+
+# Detect if running on Streamlit Cloud
+IS_CLOUD = os.getenv("STREAMLIT_RUNTIME_HEADLESS") == "true" or os.getenv("STREAMLIT_SERVER_HEADLESS") == "true"
+
+# Use appropriate scraper based on environment
+if IS_CLOUD:
+    print("🌐 Running on Streamlit Cloud - using lightweight scraper")
+    from cloud_scraper import scrape_google_cloud as scrape_google
+else:
+    print("💻 Running locally - using Selenium scraper")
+    from scraper import scrape_google
 
 
 # Page configuration
