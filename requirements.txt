@@ -1,0 +1,4 @@
+streamlit>=1.25.0
+selenium>=4.10.0
+openpyxl>=3.1.0
+webdriver-manager>=4.0.0
