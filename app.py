@@ -6,19 +6,26 @@ Orchestrates the email scraping, extraction, and Excel generation workflow
 import streamlit as st
 import io
 import os
+import sys
 from email_extractor import extract_emails_from_text, get_sorted_emails
 from excel_generator import generate_excel_from_emails
 
-# Detect if running on Streamlit Cloud
-IS_CLOUD = os.getenv("STREAMLIT_RUNTIME_HEADLESS") == "true" or os.getenv("STREAMLIT_SERVER_HEADLESS") == "true"
+# Detect if running on Streamlit Cloud or in a restricted environment
+# Streamlit Cloud doesn't support browser automation
+IS_CLOUD = (
+    os.getenv("STREAMLIT_RUNTIME_HEADLESS") == "true" or
+    os.getenv("STREAMLIT_SERVER_HEADLESS") == "true" or
+    "streamlit.app" in os.getenv("STREAMLIT_APP_URL", "") or
+    "streamlit.run" in sys.modules
+)
 
-# Use appropriate scraper based on environment
+# Always use cloud scraper - it works everywhere
+from cloud_scraper import scrape_google_cloud as scrape_google
+
 if IS_CLOUD:
-    print("🌐 Running on Streamlit Cloud - using lightweight scraper")
-    from cloud_scraper import scrape_google_cloud as scrape_google
+    st.warning("⚠️ Running on Streamlit Cloud - using lightweight HTTP scraper (no browser automation)")
 else:
-    print("💻 Running locally - using Selenium scraper")
-    from scraper import scrape_google
+    st.info("💻 Running locally - you can optionally enable browser mode in settings (experimental)")
 
 
 # Page configuration
@@ -216,12 +223,11 @@ if start_button:
                 log_message(f"Page {current_page}/{total_pages} completed")
             
             # Perform the scraping
+            # On Streamlit Cloud, headless_mode is ignored and uses cloud scraper instead
             scraped_text = scrape_google(
                 keywords=keywords,
                 max_pages=max_pages,
-                progress_callback=progress_callback,
-                headless=headless_mode,
-                interactive=False
+                progress_callback=progress_callback
             )
             
             st.session_state.scraped_text = scraped_text

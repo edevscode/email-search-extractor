@@ -83,15 +83,16 @@ class CloudScraper:
 
 def scrape_google_cloud(keywords, max_pages, progress_callback=None):
     """
-    Cloud-compatible Google search scraper
+    Cloud-compatible Google search scraper using requests
+    Works reliably on Streamlit Cloud without browser automation
     
     Args:
         keywords (str): Search keywords
         max_pages (int): Maximum pages to scrape
-        progress_callback (callable): Progress callback
+        progress_callback (callable): Progress callback function
         
     Returns:
-        str: Extracted text
+        str: Extracted text from all pages
     """
     scraper = CloudScraper()
     return scraper.search_and_extract(keywords, max_pages, progress_callback)
