@@ -5,12 +5,22 @@ Handles Google search and text extraction using Selenium
 
 import time
 import re
+import os
+import sys
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+
+# Try to import webdriver_manager
+try:
+    from webdriver_manager.chrome import ChromeDriverManager
+    HAS_WEBDRIVER_MANAGER = True
+except ImportError:
+    HAS_WEBDRIVER_MANAGER = False
 
 
 class GoogleScraper:
@@ -62,7 +72,25 @@ class GoogleScraper:
         chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
         chrome_options.add_experimental_option("useAutomationExtension", False)
         
-        self.driver = webdriver.Chrome(options=chrome_options)
+        # Try to use webdriver_manager if available, otherwise use system chrome
+        try:
+            if HAS_WEBDRIVER_MANAGER:
+                self.driver = webdriver.Chrome(
+                    service=Service(ChromeDriverManager().install()),
+                    options=chrome_options
+                )
+            else:
+                # Fallback: Try to find Chrome in system PATH
+                self.driver = webdriver.Chrome(options=chrome_options)
+        except Exception as e:
+            print(f"⚠️ Warning: Could not initialize ChromeDriver: {str(e)}")
+            print("Attempting to use system Chrome with basic configuration...")
+            # Last resort: try with minimal options
+            try:
+                self.driver = webdriver.Chrome(options=chrome_options)
+            except Exception as e2:
+                print(f"❌ Failed to initialize Chrome: {str(e2)}")
+                raise
         
         # Set window size for better visibility (if not already maximized)
         self.driver.set_window_size(1400, 900)
