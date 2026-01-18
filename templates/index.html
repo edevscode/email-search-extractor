@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Email Extractor from Google Search</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <div class="sidebar-inner">
+          <h2 class="sidebar-title">Configuration</h2>
+
+          <div class="how-box">
+            <h3>How it works:</h3>
+            <ol>
+              <li>Enter search keywords</li>
+              <li>Set the number of pages to scrape</li>
+              <li>Click "Start Searching"</li>
+              <li>Wait for the process to complete</li>
+              <li>Download the Excel file</li>
+            </ol>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="section-label">Appearance</div>
+          <label class="toggle">
+            <input id="dark_mode" type="checkbox" />
+            <span class="toggle-ui"></span>
+            <span class="toggle-text">Dark mode</span>
+          </label>
+
+          <div class="section-label">Browser Options</div>
+          <label class="toggle">
+            <input id="headless_mode" type="checkbox" checked />
+            <span class="toggle-ui"></span>
+            <span class="toggle-text">Run browser in headless mode (invisible)</span>
+          </label>
+          <div class="caption">Uncheck to see the browser window with search results in real-time</div>
+
+          <div class="divider"></div>
+
+          <div class="section-label">Content Filtering</div>
+          <label class="toggle">
+            <input id="exclude_free_emails" type="checkbox" />
+            <span class="toggle-ui"></span>
+            <span class="toggle-text">Exclude free email domains</span>
+          </label>
+          <div class="caption">Filters out gmail.com, yahoo.com, outlook.com, etc.</div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="header">
+          <h1>Email Extractor from Google Search</h1>
+          <div class="divider"></div>
+          <p class="lead">
+            This application helps you extract email addresses from Google search results.
+            It performs automated web scraping, extracts emails using regex patterns,
+            and generates a downloadable Excel file.
+          </p>
+        </header>
+
+        <section class="card">
+          <div class="grid two">
+            <div>
+              <label class="label" for="keywords">Enter Search Keywords</label>
+              <input id="keywords" class="input" type="text" placeholder="e.g., web developer contact email" />
+              <div class="help">Enter the keywords you want to search for on Google</div>
+            </div>
+            <div>
+              <label class="label" for="max_pages">Max Pages to Scrape</label>
+              <input id="max_pages" class="input" type="number" min="1" max="10" value="2" />
+              <div class="help">Number of Google search result pages to scrape (1 page = ~10 results)</div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="grid buttons">
+            <button id="start" class="btn primary">Start Searching</button>
+            <button id="clear" class="btn">Clear Results</button>
+          </div>
+
+          <div id="error" class="alert error hidden"></div>
+        </section>
+
+        <section id="progress_section" class="card hidden">
+          <div class="progress-row">
+            <div class="progress-bar"><div id="progress_fill" class="progress-fill" style="width:0%"></div></div>
+            <div id="progress_value" class="progress-value">0%</div>
+          </div>
+          <div class="divider"></div>
+          <div class="info-title">Live Scraping Log</div>
+          <textarea id="log" class="log" readonly></textarea>
+        </section>
+
+        <section id="results" class="hidden">
+          <div class="divider"></div>
+          <div id="success" class="alert success">Scraping and extraction complete</div>
+
+          <div class="grid four metrics">
+            <div class="metric">
+              <div class="metric-label">Emails Found</div>
+              <div id="metric_emails" class="metric-value">0</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Text Length (chars)</div>
+              <div id="metric_text" class="metric-value">0</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Pages Scraped</div>
+              <div id="metric_pages" class="metric-value">0</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Keywords</div>
+              <div id="metric_keywords" class="metric-value">-</div>
+            </div>
+          </div>
+
+          <details class="expander">
+            <summary>View All Extracted Emails</summary>
+            <div class="grid two">
+              <textarea id="emails_text" class="emails" readonly></textarea>
+              <div class="alert info">
+                Use Ctrl+A then Ctrl+C to copy all emails from the text area.
+              </div>
+            </div>
+          </details>
+
+          <div class="divider"></div>
+          <h3 class="subheader">Download Results</h3>
+          <div class="grid downloads">
+            <a id="download_xlsx" class="btn primary" href="#" download>Download Excel (XLSX)</a>
+            <a id="download_csv" class="btn" href="#" download>Download CSV</a>
+            <a id="download_txt" class="btn" href="#" download>Download TXT</a>
+          </div>
+        </section>
+
+        <section id="no_results" class="hidden">
+          <div class="divider"></div>
+          <div class="alert warning">
+            No emails found in the search results.
+            <br /><br />
+            Try:
+            <br />- Using different keywords
+            <br />- Increasing the number of pages to scrape
+            <br />- Searching for more specific terms (e.g., "contact email" or "email address")
+          </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <details class="expander">
+          <summary>About This App</summary>
+          <div class="markdown">
+            <h3>Features</h3>
+            <p>
+              Automated Google Search, Email Extraction, Excel Generation, Deduplication,
+              and basic rate limiting.
+            </p>
+            <h3>Technical Details</h3>
+            <p>
+              Scraping: Playwright. Email Extraction: Regex. Excel Generation: OpenPyXL.
+              Frontend: Custom UI.
+            </p>
+            <h3>Disclaimer</h3>
+            <p>
+              This tool is for educational and legitimate business purposes only.
+              Users are responsible for complying with applicable laws and website terms of service.
+            </p>
+          </div>
+        </details>
+      </main>
+    </div>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>

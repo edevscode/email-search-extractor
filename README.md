@@ -1,6 +1,6 @@
 # Email Extractor from Google Search
 
-A standalone Streamlit application for extracting email addresses from Google search results automatically.
+A standalone web application for extracting email addresses from Google search results automatically.
 
 ## Features
 
@@ -17,7 +17,8 @@ A standalone Streamlit application for extracting email addresses from Google se
 
 ```
 email-extractor/
-├── app.py                  # Main Streamlit application
+├── server.py               # FastAPI server (custom UI)
+├── run_app.py              # EXE-friendly launcher
 ├── scraper.py              # Google search scraping module
 ├── email_extractor.py      # Email extraction and validation module
 ├── excel_generator.py      # Excel file generation module
@@ -60,10 +61,10 @@ email-extractor/
 ### Running the Application
 
 ```bash
-streamlit run app.py
+python run_app.py
 ```
 
-This will open the Streamlit app in your default browser at `http://localhost:8501`
+This will open the app in your default browser at `http://localhost:8501`
 
 ### Using the App
 
@@ -127,15 +128,13 @@ Creates formatted Excel files with email data.
 - Support for metadata columns
 
 ### app.py
-Main Streamlit application orchestrating the workflow.
+Main application UI is served from `server.py`.
 
 **Features**:
-- Interactive UI with sidebar configuration
+- Streamlit-like UI with sidebar configuration
 - Real-time progress tracking
-- Session state management
 - Multiple download formats
 - Responsive error handling
-- Comprehensive documentation
 
 ## Configuration Options
 
@@ -199,10 +198,11 @@ Main Streamlit application orchestrating the workflow.
 
 | Package | Version | Purpose |
 |---------|---------|---------|
-| streamlit | 1.28.1 | Web application framework |
-| selenium | 4.15.2 | Browser automation |
+| fastapi | (see requirements.txt) | Web server |
+| uvicorn | (see requirements.txt) | ASGI server |
+| jinja2 | (see requirements.txt) | HTML templates |
 | openpyxl | 3.11.0 | Excel file generation |
-| webdriver-manager | 4.0.1 | Automatic ChromeDriver management |
+| playwright | (see requirements.txt) | Browser automation |
 
 ## Examples
 
