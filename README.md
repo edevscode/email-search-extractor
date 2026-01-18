@@ -4,6 +4,7 @@ A standalone Streamlit application for extracting email addresses from Google se
 
 ## Features
 
+<<<<<<< HEAD
 - 🌐 **Automated Google Search**: Perform keyword searches and scrape Google results
 - 📄 **Multi-page Scraping**: Extract content from multiple search result pages
 - 📧 **Email Extraction**: Automatically find and extract all email addresses using regex
@@ -12,6 +13,16 @@ A standalone Streamlit application for extracting email addresses from Google se
 - 📥 **Multiple Export Formats**: Download as Excel, CSV, or TXT
 - ⚡ **Rate Limiting**: Includes delays to avoid Google blocking
 - 🎯 **Domain Filtering**: Optional filtering of free email domains
+=======
+- **Automated Google Search**: Perform keyword searches and scrape Google results
+- **Multi-page Scraping**: Extract content from multiple search result pages
+- **Email Extraction**: Automatically find and extract all email addresses using regex
+- **Deduplication**: Remove duplicate emails automatically
+- **Excel Generation**: Create formatted Excel files ready for use
+- **Multiple Export Formats**: Download as Excel, CSV, or TXT
+- **Rate Limiting**: Includes delays to avoid Google blocking
+- **Domain Filtering**: Optional filtering of free email domains
+>>>>>>> 0c7f6bb (Initial commit)
 
 ## Project Structure
 
@@ -182,12 +193,21 @@ Main Streamlit application orchestrating the workflow.
 ## Important Notes
 
 ### Legal & Ethical Considerations
+<<<<<<< HEAD
 - ✅ Use for legitimate business purposes (lead generation, research)
 - ✅ Respect website Terms of Service
 - ✅ Include appropriate delays between requests
 - ❌ Don't overload servers with excessive requests
 - ❌ Don't use for spam or malicious purposes
 - ❌ Always verify data before using
+=======
+- Use for legitimate business purposes (lead generation, research)
+- Respect website Terms of Service
+- Include appropriate delays between requests
+- Don't overload servers with excessive requests
+- Don't use for spam or malicious purposes
+- Always verify data before using
+>>>>>>> 0c7f6bb (Initial commit)
 
 ### Data Privacy
 - Email addresses are extracted from public search results

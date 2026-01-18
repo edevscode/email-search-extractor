@@ -1,3 +1,7 @@
 streamlit>=1.25.0
+<<<<<<< HEAD
 playwright>=1.40.0
+=======
+playwright>=1.39.0
+>>>>>>> 0c7f6bb (Initial commit)
 openpyxl>=3.1.0
