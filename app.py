@@ -5,11 +5,7 @@ Orchestrates the email scraping, extraction, and Excel generation workflow
 
 import streamlit as st
 import io
-<<<<<<< HEAD
-from scraper import scrape_google
-=======
 from scraper_playwright import scrape_google
->>>>>>> 0c7f6bb (Initial commit)
 from email_extractor import extract_emails_from_text, get_sorted_emails
 from excel_generator import generate_excel_from_emails
 
@@ -17,11 +13,7 @@ from excel_generator import generate_excel_from_emails
 # Page configuration
 st.set_page_config(
     page_title="Email Extractor from Google Search",
-<<<<<<< HEAD
-    page_icon="📧",
-=======
     page_icon=None,
->>>>>>> 0c7f6bb (Initial commit)
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -59,11 +51,7 @@ st.markdown("""
 # ============================================================================
 # APPLICATION HEADER
 # ============================================================================
-<<<<<<< HEAD
-st.title("🔍 Email Extractor from Google Search")
-=======
 st.title("Email Extractor from Google Search")
->>>>>>> 0c7f6bb (Initial commit)
 st.markdown("---")
 
 st.markdown("""
@@ -76,20 +64,12 @@ and generates a downloadable Excel file.
 # SIDEBAR CONFIGURATION
 # ============================================================================
 with st.sidebar:
-<<<<<<< HEAD
-    st.header("⚙️ Configuration")
-=======
     st.header("Configuration")
->>>>>>> 0c7f6bb (Initial commit)
     
     # Information box with better visibility
     st.markdown("""
     <div style="background-color: #1a472a; border: 2px solid #2d7a4a; border-radius: 8px; padding: 20px; margin: 10px 0;">
-<<<<<<< HEAD
-    <h3 style="color: #ffffff; margin-top: 0;">💡 How it works:</h3>
-=======
     <h3 style="color: #ffffff; margin-top: 0;">How it works:</h3>
->>>>>>> 0c7f6bb (Initial commit)
     <ol style="color: #e8f5e9; font-size: 16px; line-height: 1.8;">
     <li>Enter search keywords</li>
     <li>Set the number of pages to scrape</li>
@@ -104,11 +84,7 @@ with st.sidebar:
     st.markdown("**Browser Options**")
     
     # Headless mode toggle
-<<<<<<< HEAD
-    headless_mode = st.toggle("🔍 Run browser in headless mode (invisible)", value=True)
-=======
     headless_mode = st.toggle("Run browser in headless mode (invisible)", value=True)
->>>>>>> 0c7f6bb (Initial commit)
     st.caption("Uncheck to see the browser window with search results in real-time")
     
     st.markdown("---")
@@ -128,11 +104,7 @@ col1, col2 = st.columns([3, 1])
 with col1:
     # Search keywords input
     keywords = st.text_input(
-<<<<<<< HEAD
-        "🔑 Enter Search Keywords",
-=======
         "Enter Search Keywords",
->>>>>>> 0c7f6bb (Initial commit)
         placeholder="e.g., web developer contact email",
         help="Enter the keywords you want to search for on Google"
     )
@@ -140,11 +112,7 @@ with col1:
 with col2:
     # Number of pages slider
     max_pages = st.number_input(
-<<<<<<< HEAD
-        "📄 Max Pages to Scrape",
-=======
         "Max Pages to Scrape",
->>>>>>> 0c7f6bb (Initial commit)
         min_value=1,
         max_value=10,
         value=2,
@@ -158,22 +126,14 @@ col1, col2, col3 = st.columns([1, 1, 2])
 
 with col1:
     start_button = st.button(
-<<<<<<< HEAD
-        "▶️ Start Searching",
-=======
         "Start Searching",
->>>>>>> 0c7f6bb (Initial commit)
         use_container_width=True,
         type="primary"
     )
 
 with col2:
     clear_button = st.button(
-<<<<<<< HEAD
-        "🗑️ Clear Results",
-=======
         "Clear Results",
->>>>>>> 0c7f6bb (Initial commit)
         use_container_width=True
     )
 
@@ -190,11 +150,7 @@ if clear_button:
     st.session_state.scraping_complete = False
     st.session_state.emails_found = []
     st.session_state.scraped_text = ""
-<<<<<<< HEAD
-    st.success("✅ Results cleared!")
-=======
     st.success("Results cleared")
->>>>>>> 0c7f6bb (Initial commit)
     st.rerun()
 
 # ============================================================================
@@ -204,11 +160,7 @@ if clear_button:
 if start_button:
     # Validate input
     if not keywords.strip():
-<<<<<<< HEAD
-        st.error("❌ Please enter search keywords")
-=======
         st.error("Please enter search keywords")
->>>>>>> 0c7f6bb (Initial commit)
     else:
         # Create progress tracking and logging
         progress_bar = st.progress(0)
@@ -216,11 +168,7 @@ if start_button:
         log_container = st.container()
         
         with log_container:
-<<<<<<< HEAD
-            st.info("📋 Live Scraping Log:")
-=======
             st.info("Live Scraping Log")
->>>>>>> 0c7f6bb (Initial commit)
             log_output = st.empty()
         
         # Capture logs for display
@@ -244,11 +192,7 @@ if start_button:
                     label_visibility="collapsed"
                 )
             
-<<<<<<< HEAD
-            status_text.info(f"🌐 Scraping Google search results for '{keywords}'...")
-=======
             status_text.info(f"Scraping Google search results for '{keywords}'...")
->>>>>>> 0c7f6bb (Initial commit)
             log_message(f"Starting search for: {keywords}")
             log_message(f"Max pages: {max_pages}")
             log_message(f"Headless mode: {headless_mode}")
@@ -257,11 +201,7 @@ if start_button:
             def progress_callback(current_page, total_pages):
                 progress = int((current_page / total_pages) * 50)  # First 50% for scraping
                 progress_bar.progress(progress)
-<<<<<<< HEAD
-                status_text.info(f"🌐 Scraping page {current_page} of {total_pages}...")
-=======
                 status_text.info(f"Scraping page {current_page} of {total_pages}...")
->>>>>>> 0c7f6bb (Initial commit)
                 log_message(f"Page {current_page}/{total_pages} completed")
             
             # Perform the scraping
@@ -276,20 +216,12 @@ if start_button:
             st.session_state.scraped_text = scraped_text
             progress_bar.progress(50)
             log_message("-" * 50)
-<<<<<<< HEAD
-            log_message(f"✓ Scraping complete. Extracted {len(scraped_text)} characters")
-=======
             log_message(f"Scraping complete. Extracted {len(scraped_text)} characters")
->>>>>>> 0c7f6bb (Initial commit)
             
             # ================================================================
             # STEP 2: EXTRACT EMAILS FROM SCRAPED TEXT
             # ================================================================
-<<<<<<< HEAD
-            status_text.info("📧 Extracting email addresses...")
-=======
             status_text.info("Extracting email addresses...")
->>>>>>> 0c7f6bb (Initial commit)
             log_message("Starting email extraction...")
             
             # Extract emails
@@ -316,20 +248,12 @@ if start_button:
             # ================================================================
             # STEP 3: GENERATE EXCEL FILE
             # ================================================================
-<<<<<<< HEAD
-            status_text.info("📁 Generating Excel file...")
-=======
             status_text.info("Generating Excel file...")
->>>>>>> 0c7f6bb (Initial commit)
             log_message("Generating Excel file...")
             
             excel_bytes = generate_excel_from_emails(sorted_emails)
             progress_bar.progress(100)
-<<<<<<< HEAD
-            log_message("✓ Excel file generated successfully")
-=======
             log_message("Excel file generated successfully")
->>>>>>> 0c7f6bb (Initial commit)
             log_message("-" * 50)
             
             st.session_state.scraping_complete = True
@@ -340,13 +264,8 @@ if start_button:
             
         except Exception as e:
             progress_bar.empty()
-<<<<<<< HEAD
-            log_message(f"❌ ERROR: {str(e)}")
-            st.error(f"❌ An error occurred: {str(e)}")
-=======
             log_message(f"ERROR: {str(e)}")
             st.error(f"An error occurred: {str(e)}")
->>>>>>> 0c7f6bb (Initial commit)
             status_text.empty()
 
 # ============================================================================
@@ -355,11 +274,7 @@ if start_button:
 
 if st.session_state.scraping_complete and st.session_state.emails_found:
     st.markdown("---")
-<<<<<<< HEAD
-    st.success("✅ Scraping and extraction complete!")
-=======
     st.success("Scraping and extraction complete")
->>>>>>> 0c7f6bb (Initial commit)
     
     # Display statistics
     col1, col2, col3, col4 = st.columns(4)
@@ -377,11 +292,7 @@ if st.session_state.scraping_complete and st.session_state.emails_found:
         st.metric("Keywords", keywords)
     
     # Display emails in a collapsible section
-<<<<<<< HEAD
-    with st.expander("📊 View All Extracted Emails"):
-=======
     with st.expander("View All Extracted Emails"):
->>>>>>> 0c7f6bb (Initial commit)
         # Create a column for copying
         col1, col2 = st.columns([3, 1])
         
@@ -396,19 +307,11 @@ if st.session_state.scraping_complete and st.session_state.emails_found:
             )
         
         with col2:
-<<<<<<< HEAD
-            st.info("📋 Use Ctrl+A then Ctrl+C to copy all emails from the text area above")
-    
-    # Download section
-    st.markdown("---")
-    st.subheader("📥 Download Results")
-=======
             st.info("Use Ctrl+A then Ctrl+C to copy all emails from the text area above")
     
     # Download section
     st.markdown("---")
     st.subheader("Download Results")
->>>>>>> 0c7f6bb (Initial commit)
     
     col1, col2, col3 = st.columns([1, 1, 2])
     
@@ -417,11 +320,7 @@ if st.session_state.scraping_complete and st.session_state.emails_found:
         excel_bytes = generate_excel_from_emails(st.session_state.emails_found)
         
         st.download_button(
-<<<<<<< HEAD
-            label="📊 Download Excel (XLSX)",
-=======
             label="Download Excel (XLSX)",
->>>>>>> 0c7f6bb (Initial commit)
             data=excel_bytes,
             file_name=f"emails_{keywords.replace(' ', '_')}.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -433,11 +332,7 @@ if st.session_state.scraping_complete and st.session_state.emails_found:
         csv_data = "\n".join(st.session_state.emails_found)
         
         st.download_button(
-<<<<<<< HEAD
-            label="📄 Download CSV",
-=======
             label="Download CSV",
->>>>>>> 0c7f6bb (Initial commit)
             data=csv_data,
             file_name=f"emails_{keywords.replace(' ', '_')}.csv",
             mime="text/csv",
@@ -449,11 +344,7 @@ if st.session_state.scraping_complete and st.session_state.emails_found:
         txt_data = "\n".join(st.session_state.emails_found)
         
         st.download_button(
-<<<<<<< HEAD
-            label="📝 Download TXT",
-=======
             label="Download TXT",
->>>>>>> 0c7f6bb (Initial commit)
             data=txt_data,
             file_name=f"emails_{keywords.replace(' ', '_')}.txt",
             mime="text/plain",
@@ -462,11 +353,7 @@ if st.session_state.scraping_complete and st.session_state.emails_found:
 
 elif st.session_state.scraping_complete and not st.session_state.emails_found:
     st.warning("""
-<<<<<<< HEAD
-    ⚠️ No emails found in the search results.
-=======
     No emails found in the search results.
->>>>>>> 0c7f6bb (Initial commit)
     
     Try:
     - Using different keywords
@@ -480,16 +367,6 @@ elif st.session_state.scraping_complete and not st.session_state.emails_found:
 
 st.markdown("---")
 
-<<<<<<< HEAD
-with st.expander("ℹ️ About This App"):
-    st.markdown("""
-    ### Features
-    - 🌐 **Automated Google Search**: Scrapes search results without manual clicking
-    - 📧 **Email Extraction**: Uses regex patterns to find all email addresses
-    - 📊 **Excel Generation**: Creates formatted, downloadable spreadsheets
-    - 🚫 **Deduplication**: Automatically removes duplicate emails
-    - ⚡ **Rate Limiting**: Includes delays to avoid Google blocking
-=======
 with st.expander("About This App"):
     st.markdown("""
     ### Features
@@ -498,7 +375,6 @@ with st.expander("About This App"):
     - **Excel Generation**: Creates formatted, downloadable spreadsheets
     - **Deduplication**: Automatically removes duplicate emails
     - **Rate Limiting**: Includes delays to avoid Google blocking
->>>>>>> 0c7f6bb (Initial commit)
     
     ### Technical Details
     - **Scraping**: Selenium WebDriver for browser automation
@@ -507,28 +383,17 @@ with st.expander("About This App"):
     - **Frontend**: Streamlit for interactive UI
     
     ### Important Notes
-<<<<<<< HEAD
-    - ⏱️ Scraping may take a few seconds per page
-    - 🔒 Please respect Google's Terms of Service and use responsibly
-    - 🚫 Excessive scraping may result in temporary blocks
-    - 📧 Always verify extracted emails before use
-=======
     - Scraping may take a few seconds per page
     - Please respect Google's Terms of Service and use responsibly
     - Excessive scraping may result in temporary blocks
     - Always verify extracted emails before use
->>>>>>> 0c7f6bb (Initial commit)
     
     ### Disclaimer
     This tool is for educational and legitimate business purposes only. 
     Users are responsible for complying with applicable laws and website terms of service.
     """)
 
-<<<<<<< HEAD
-with st.expander("🛠️ Troubleshooting"):
-=======
 with st.expander("Troubleshooting"):
->>>>>>> 0c7f6bb (Initial commit)
     st.markdown("""
     **Issue: No emails found**
     - Try different keywords
