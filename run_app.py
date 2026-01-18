@@ -55,13 +55,13 @@ def main():
         log_dir = os.getcwd()
     log_path = os.path.join(log_dir, "launcher.log")
 
-    # PyInstaller --noconsole can set stdout/stderr to None. Uvicorn's default
-    # logging formatter expects a stream with .isatty(), so we provide a safe
-    # fallback.
+    # If built without a console, PyInstaller can set stdout/stderr to None.
+    # For console builds, we want logs to be visible in the terminal.
+    # For non-console builds, fall back to a persistent file so logs aren't lost.
     if sys.stdout is None:
-        sys.stdout = open(os.devnull, "w")  # noqa: SIM115
+        sys.stdout = open(log_path, "a", encoding="utf-8", buffering=1)  # noqa: SIM115
     if sys.stderr is None:
-        sys.stderr = open(os.devnull, "w")  # noqa: SIM115
+        sys.stderr = open(log_path, "a", encoding="utf-8", buffering=1)  # noqa: SIM115
 
     # Start browser in background
     threading.Thread(target=_open_browser, daemon=True).start()
@@ -76,7 +76,7 @@ def main():
             host="127.0.0.1",
             port=8501,
             log_level="info",
-            log_config=None,
+            access_log=True,
         )
     except Exception:
         # With --noconsole we won't see stderr. Log to a file for debugging.

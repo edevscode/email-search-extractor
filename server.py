@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import sys
 import threading
 import time
 import uuid
@@ -153,7 +154,10 @@ def _run_job(job_id: str) -> None:
 
 app = FastAPI()
 
-_BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
+    _BASE_DIR = sys._MEIPASS
+else:
+    _BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 _STATIC_DIR = os.path.join(_BASE_DIR, "static")
 _TEMPLATES_DIR = os.path.join(_BASE_DIR, "templates")
 
